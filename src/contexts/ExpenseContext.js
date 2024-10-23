@@ -27,8 +27,8 @@ export const ExpenseProvider = ({ children }) => {
 
   const addExpense = async (newExpense) => {
     try {
-      const response = await axiosInstance.post('/expenses', newExpense);
-      setExpenses([...expenses, response.data]);
+      const {data} = await axiosInstance.post('/expenses', newExpense);
+      setExpenses([...expenses, data.data]);
       navigate('/expense')
     } catch (err) {
       setError(err.message);
@@ -37,8 +37,8 @@ export const ExpenseProvider = ({ children }) => {
 
   const updateExpense = async (id, updatedExpense) => {
     try {
-      const response = await axiosInstance.put(`/expenses/${id}`, updatedExpense);
-      setExpenses(expenses.map(exp => (exp._id === id ? response.data : exp)));
+      const {data} = await axiosInstance.put(`/expenses/${id}`, updatedExpense);
+      setExpenses(expenses.map(exp => (exp._id === id ? data.data : exp)));
       navigate('/expense')
     } catch (err) {
       setError(err.message);

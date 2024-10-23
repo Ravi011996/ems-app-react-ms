@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import { useExpenses } from "../contexts/ExpenseContext";
+import { useLocation } from 'react-router-dom';
 
-const ExpenseForm = ({ expense }) => {
+const ExpenseForm = () => {
+  const location = useLocation();
+  const { expense } = location.state || {};
   const { addExpense, updateExpense } = useExpenses();
   const [title, setTitle] = useState(expense ? expense.title : "");
   const [amount, setAmount] = useState(expense ? expense.amount : "");
   const [category, setCategory] = useState(expense ? expense.category : "");
   const [date, setDate] = useState(expense ? expense.date : "");
+  
+  const categories = ["Housing", "Food", "Transportation", "Utilities", "Entertainment", "Electronics"];
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -27,7 +32,7 @@ const ExpenseForm = ({ expense }) => {
 
   return (
     <form onSubmit={handleSubmit} className="container text-start">
-      <div className="row mb-3 ">
+      <div className="row mb-3">
         <div className="col">
           <label htmlFor="title" className="form-label">
             Title
@@ -64,15 +69,20 @@ const ExpenseForm = ({ expense }) => {
           <label htmlFor="category" className="form-label">
             Category
           </label>
-          <input
-            type="text"
-            className="form-control"
+          <select
+            className="form-select"
             id="category"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            placeholder="Expense category"
             required
-          />
+          >
+            <option value="" disabled>Select category</option>
+            {categories.map((cat, index) => (
+              <option key={index} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="col">

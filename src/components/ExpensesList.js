@@ -3,7 +3,7 @@ import { useExpenses } from '../contexts/ExpenseContext';
 import { useNavigate } from 'react-router-dom';
 
 const ExpensesList = () => {
-  const { expenses, loading, error, deleteExpense,updateExpense} = useExpenses();
+  const { expenses, loading, error, deleteExpense} = useExpenses();
   const navigate = useNavigate();
 
   if (loading) return <p>Loading expenses...</p>;
@@ -11,6 +11,10 @@ const ExpensesList = () => {
 
   const handleAddExpense = () => {
     navigate('/expense/add-expense'); 
+  };
+
+  const handleEditExpense = (expense) => {
+    navigate('/expense/edit-expense',{ state: { expense } }); 
   };
 
   return (
@@ -43,7 +47,7 @@ const ExpensesList = () => {
               <td>
                 <button
                   className="btn btn-primary btn-sm me-2"
-                  onClick={() => updateExpense(expense._id)}
+                  onClick={() => handleEditExpense(expense)}
                 >
                   <i className="bi bi-pencil-fill"></i> 
                 </button>

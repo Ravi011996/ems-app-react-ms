@@ -19,7 +19,6 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
 
-            {/* Protected Routes that require ExpenseProvider */}
             <Route
               path="/expense"
               element={
@@ -28,10 +27,16 @@ function App() {
                 </ExpenseProvider>
               }
             />
-
-            {/* Nested child routes under home */}
             <Route
               path="/expense/add-expense"
+              element={
+                <ExpenseProvider>
+                  <ExpenseForm />
+                </ExpenseProvider>
+              }
+            />
+            <Route
+              path="/expense/edit-expense"
               element={
                 <ExpenseProvider>
                   <ExpenseForm />
