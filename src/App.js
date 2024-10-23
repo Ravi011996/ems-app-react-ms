@@ -1,23 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Navbar from "./layouts/Navbar";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Login, Register } from "./pages/auth/index";
+import Home from "./pages/home/Home";
+import { AuthProvider } from "./contexts/AuthContext";
+import { ExpenseProvider } from './contexts/ExpenseContext'; // Assuming you have ExpenseProvider
+import ExpenseForm from './components/ExpenseForm';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App text-start">
+      <AuthProvider>
+        <Router>
+          <Navbar />
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+
+            {/* Protected Routes that require ExpenseProvider */}
+            <Route
+              path="/expense"
+              element={
+                <ExpenseProvider>
+                  <Home />
+                </ExpenseProvider>
+              }
+            />
+
+            {/* Nested child routes under home */}
+            <Route
+              path="/expense/add-expense"
+              element={
+                <ExpenseProvider>
+                  <ExpenseForm />
+                </ExpenseProvider>
+              }
+            />
+          </Routes>
+        </Router>
+      </AuthProvider>
     </div>
   );
 }
